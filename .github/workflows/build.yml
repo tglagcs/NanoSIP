@@ -29,10 +29,10 @@ jobs:
           $logFile = "$env:TEMP\vs_modify_log.txt"
           $args = @(
             "modify",
-            "--installPath", "`"$vsPath`"",
+            "--installPath", $vsPath,
             "--add", "Microsoft.VisualStudio.Component.VC.ATLMFC",
             "--quiet", "--norestart", "--wait",
-            "--log", "`"$logFile`""
+            "--log", $logFile
           )
           Write-Host "Running: $installerExe $($args -join ' ')"
 
