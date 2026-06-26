@@ -19,6 +19,18 @@ jobs:
       - name: Add MSBuild to PATH
         uses: microsoft/setup-msbuild@v2
 
+      - name: Install MFC/ATL components
+        shell: pwsh
+        run: |
+          $vsWhere = "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installer.exe"
+          $vsPath = (& "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -latest -property installationPath)
+          & $vsWhere modify --installPath $vsPath `
+            --add Microsoft.VisualStudio.Component.VC.ATLMFC `
+            --quiet --norestart --wait
+          if ($LASTEXITCODE -ne 0 -and $LASTEXITCODE -ne 3010) {
+            throw "vs_installer failed with exit code $LASTEXITCODE"
+          }
+
       - name: Detect installed Windows SDK version
         shell: pwsh
         run: |
