@@ -22,30 +22,43 @@ jobs:
       - name: Install MFC/ATL components
         shell: pwsh
         run: |
-          $installerExe = "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installer.exe"
           $vsPath = (& "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -latest -property installationPath)
           Write-Host "VS installation path: $vsPath"
 
-          $logFile = "$env:TEMP\vs_modify_log.txt"
-          $argString = "modify --installPath `"$vsPath`" --add Microsoft.VisualStudio.Component.VC.ATLMFC --quiet --norestart --log `"$logFile`""
-          Write-Host "Running: $installerExe $argString"
-
-          $proc = Start-Process -FilePath $installerExe -ArgumentList $argString -Wait -PassThru -NoNewWindow
-          Write-Host "vs_installer exit code: $($proc.ExitCode)"
-
-          if (Test-Path $logFile) {
-            Write-Host "----- vs_installer log (last 200 lines) -----"
-            Get-Content $logFile -Tail 200
+          # The documented CLI engine for modify is setup.exe, NOT vs_installer.exe.
+          # vs_installer.exe is the GUI app and rejects headless `modify --quiet`
+          # with ERROR_INVALID_PARAMETER (87).
+          $setupExe = "C:\Program Files (x86)\Microsoft Visual Studio\Installer\setup.exe"
+          if (-not (Test-Path $setupExe)) {
+            throw "setup.exe not found at $setupExe"
           }
 
+          $argList = @(
+            "modify",
+            "--installPath", "`"$vsPath`"",
+            "--add", "Microsoft.VisualStudio.Component.VC.ATLMFC",
+            "--quiet", "--norestart", "--force", "--nocache"
+          )
+          Write-Host "Running: $setupExe $($argList -join ' ')"
+
+          $proc = Start-Process -FilePath $setupExe -ArgumentList $argList -Wait -PassThru
+          Write-Host "setup.exe exit code: $($proc.ExitCode)"
+
+          # On failure, surface the real diagnostics: the dd_*.log files in %TEMP%.
           if ($proc.ExitCode -ne 0 -and $proc.ExitCode -ne 3010) {
-            throw "vs_installer failed with exit code $($proc.ExitCode)"
+            Write-Host "----- Recent dd_*.log files in TEMP -----"
+            Get-ChildItem "$env:TEMP\dd_*.log" -ErrorAction SilentlyContinue |
+              Sort-Object LastWriteTime -Descending | Select-Object -First 5 | ForEach-Object {
+                Write-Host "===== $($_.FullName) ====="
+                Get-Content $_.FullName -Tail 60
+              }
+            throw "setup.exe modify failed with exit code $($proc.ExitCode)"
           }
 
-          $mfcHeader = Join-Path $vsPath "VC\Tools\MSVC"
-          $found = Get-ChildItem -Path $mfcHeader -Recurse -Filter "afxwin.h" -ErrorAction SilentlyContinue
+          $mfcRoot = Join-Path $vsPath "VC\Tools\MSVC"
+          $found = Get-ChildItem -Path $mfcRoot -Recurse -Filter "afxwin.h" -ErrorAction SilentlyContinue
           if (-not $found) {
-            throw "ATLMFC install reported success but afxwin.h was not found under $mfcHeader"
+            throw "ATLMFC install reported success but afxwin.h was not found under $mfcRoot"
           }
           Write-Host "MFC headers found at: $($found[0].FullName)"
 
