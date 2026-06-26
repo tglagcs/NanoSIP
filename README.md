@@ -1,6 +1,10 @@
-# NanoSIP
+<div align="center">
+  
+# 📞 NanoSIP
 
 🇬🇧 [English](#english) · 🇷🇺 [Русский](#русский)
+
+</div>
 
 ---
 
