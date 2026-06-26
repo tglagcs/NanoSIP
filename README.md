@@ -19,14 +19,12 @@ a stripped-down, voice-only build with no update checks and no unnecessary inter
 
 The source code lives in the [`NanoSIP/`](NanoSIP) subfolder, not in the repository root.
 
-<details>
 <summary>Screenshots</summary>
 <p align="center">
   <img src="docs/nanosip.png" alt="NanoSIP main screen" width="260">
   <img src="docs/account.png" alt="NanoSIP account dialog" width="260">
   <img src="docs/settings.png" alt="NanoSIP settings dialog" width="420">
 </p>
-</details>
 
 ### What's different from the original MicroSIP
 
@@ -127,14 +125,12 @@ libraries (pjproject, Speex, libsrtp, WebRTC modules, JsonCpp, etc.) are listed 
 
 Исходники лежат в подпапке [`NanoSIP/`](NanoSIP), а не в корне репозитория.
 
-<details>
 <summary>Скриншоты</summary>
 <p align="center">
   <img src="docs/nanosip.png" alt="Главный экран NanoSIP" width="260">
   <img src="docs/account.png" alt="Диалог Account" width="260">
   <img src="docs/settings.png" alt="Диалог Settings" width="420">
 </p>
-</details>
 
 ### Что изменено относительно оригинального MicroSIP
 
