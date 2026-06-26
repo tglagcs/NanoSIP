@@ -22,14 +22,38 @@ jobs:
       - name: Install MFC/ATL components
         shell: pwsh
         run: |
-          $vsWhere = "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installer.exe"
+          $installerExe = "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installer.exe"
           $vsPath = (& "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -latest -property installationPath)
-          & $vsWhere modify --installPath $vsPath `
-            --add Microsoft.VisualStudio.Component.VC.ATLMFC `
-            --quiet --norestart --wait
-          if ($LASTEXITCODE -ne 0 -and $LASTEXITCODE -ne 3010) {
-            throw "vs_installer failed with exit code $LASTEXITCODE"
+          Write-Host "VS installation path: $vsPath"
+
+          $logFile = "$env:TEMP\vs_modify_log.txt"
+          $args = @(
+            "modify",
+            "--installPath", "`"$vsPath`"",
+            "--add", "Microsoft.VisualStudio.Component.VC.ATLMFC",
+            "--quiet", "--norestart", "--wait",
+            "--log", "`"$logFile`""
+          )
+          Write-Host "Running: $installerExe $($args -join ' ')"
+
+          $proc = Start-Process -FilePath $installerExe -ArgumentList $args -Wait -PassThru -NoNewWindow
+          Write-Host "vs_installer exit code: $($proc.ExitCode)"
+
+          if (Test-Path $logFile) {
+            Write-Host "----- vs_installer log (last 200 lines) -----"
+            Get-Content $logFile -Tail 200
           }
+
+          if ($proc.ExitCode -ne 0 -and $proc.ExitCode -ne 3010) {
+            throw "vs_installer failed with exit code $($proc.ExitCode)"
+          }
+
+          $mfcHeader = Join-Path $vsPath "VC\Tools\MSVC"
+          $found = Get-ChildItem -Path $mfcHeader -Recurse -Filter "afxwin.h" -ErrorAction SilentlyContinue
+          if (-not $found) {
+            throw "ATLMFC install reported success but afxwin.h was not found under $mfcHeader"
+          }
+          Write-Host "MFC headers found at: $($found[0].FullName)"
 
       - name: Detect installed Windows SDK version
         shell: pwsh
