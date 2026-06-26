@@ -27,16 +27,10 @@ jobs:
           Write-Host "VS installation path: $vsPath"
 
           $logFile = "$env:TEMP\vs_modify_log.txt"
-          $args = @(
-            "modify",
-            "--installPath", $vsPath,
-            "--add", "Microsoft.VisualStudio.Component.VC.ATLMFC",
-            "--quiet", "--norestart",
-            "--log", $logFile
-          )
-          Write-Host "Running: $installerExe $($args -join ' ')"
+          $argString = "modify --installPath `"$vsPath`" --add Microsoft.VisualStudio.Component.VC.ATLMFC --quiet --norestart --log `"$logFile`""
+          Write-Host "Running: $installerExe $argString"
 
-          $proc = Start-Process -FilePath $installerExe -ArgumentList $args -Wait -PassThru -NoNewWindow
+          $proc = Start-Process -FilePath $installerExe -ArgumentList $argString -Wait -PassThru -NoNewWindow
           Write-Host "vs_installer exit code: $($proc.ExitCode)"
 
           if (Test-Path $logFile) {
