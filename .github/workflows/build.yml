@@ -1,0 +1,63 @@
+name: Build NanoSIP
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Add MSBuild to PATH
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Detect installed Windows SDK version
+        shell: pwsh
+        run: |
+          $sdkRoot = "C:\Program Files (x86)\Windows Kits\10\Include"
+          $sdkVersion = (Get-ChildItem $sdkRoot | Sort-Object Name -Descending | Select-Object -First 1).Name
+          if (-not $sdkVersion) {
+            throw "No Windows 10 SDK found under $sdkRoot"
+          }
+          Write-Host "Using Windows SDK $sdkVersion"
+          echo "SDK_VERSION=$sdkVersion" >> $env:GITHUB_ENV
+
+      - name: Build NanoSIP.exe (Release / Win32)
+        shell: pwsh
+        run: |
+          msbuild "NanoSIP\microsip.vcxproj" `
+            /p:Configuration=Release /p:Platform=Win32 `
+            /p:PlatformToolset=v143 /p:WindowsTargetPlatformVersion=$env:SDK_VERSION `
+            /t:Build /m
+
+      - name: Upload NanoSIP.exe artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NanoSIP-${{ github.sha }}
+          path: NanoSIP/Release/NanoSIP.exe
+          if-no-files-found: error
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: NanoSIP-${{ github.sha }}
+          path: dist
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/NanoSIP.exe

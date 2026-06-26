@@ -1,0 +1,12 @@
+C:\Users\r.kokh\Desktop\pjnath\src\pjnath\errno.c;C:\Users\r.kokh\Desktop\pjnath\build\output\pjnath-i386-Win32-vc14-Release\errno.obj
+C:\Users\r.kokh\Desktop\pjnath\src\pjnath\ice_session.c;C:\Users\r.kokh\Desktop\pjnath\build\output\pjnath-i386-Win32-vc14-Release\ice_session.obj
+C:\Users\r.kokh\Desktop\pjnath\src\pjnath\ice_strans.c;C:\Users\r.kokh\Desktop\pjnath\build\output\pjnath-i386-Win32-vc14-Release\ice_strans.obj
+C:\Users\r.kokh\Desktop\pjnath\src\pjnath\nat_detect.c;C:\Users\r.kokh\Desktop\pjnath\build\output\pjnath-i386-Win32-vc14-Release\nat_detect.obj
+C:\Users\r.kokh\Desktop\pjnath\src\pjnath\stun_auth.c;C:\Users\r.kokh\Desktop\pjnath\build\output\pjnath-i386-Win32-vc14-Release\stun_auth.obj
+C:\Users\r.kokh\Desktop\pjnath\src\pjnath\stun_msg.c;C:\Users\r.kokh\Desktop\pjnath\build\output\pjnath-i386-Win32-vc14-Release\stun_msg.obj
+C:\Users\r.kokh\Desktop\pjnath\src\pjnath\stun_msg_dump.c;C:\Users\r.kokh\Desktop\pjnath\build\output\pjnath-i386-Win32-vc14-Release\stun_msg_dump.obj
+C:\Users\r.kokh\Desktop\pjnath\src\pjnath\stun_session.c;C:\Users\r.kokh\Desktop\pjnath\build\output\pjnath-i386-Win32-vc14-Release\stun_session.obj
+C:\Users\r.kokh\Desktop\pjnath\src\pjnath\stun_sock.c;C:\Users\r.kokh\Desktop\pjnath\build\output\pjnath-i386-Win32-vc14-Release\stun_sock.obj
+C:\Users\r.kokh\Desktop\pjnath\src\pjnath\stun_transaction.c;C:\Users\r.kokh\Desktop\pjnath\build\output\pjnath-i386-Win32-vc14-Release\stun_transaction.obj
+C:\Users\r.kokh\Desktop\pjnath\src\pjnath\turn_session.c;C:\Users\r.kokh\Desktop\pjnath\build\output\pjnath-i386-Win32-vc14-Release\turn_session.obj
+C:\Users\r.kokh\Desktop\pjnath\src\pjnath\turn_sock.c;C:\Users\r.kokh\Desktop\pjnath\build\output\pjnath-i386-Win32-vc14-Release\turn_sock.obj

@@ -1,0 +1,19 @@
+NanoSIP is a fork of MicroSIP and is licensed under the
+GNU General Public License, version 2, or (at your option) any later
+version (GPL-2.0-or-later) — the same license used by the upstream
+MicroSIP project and by PJSIP/pjproject, which this project bundles.
+
+SPDX-License-Identifier: GPL-2.0-or-later
+
+The full license text is the standard GNU GPL version 2, published by
+the Free Software Foundation. It is not reproduced in full here to
+keep this file short; the canonical text is available at:
+
+    https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+
+A copy is also distributed with most Linux/GNU toolchains and editors
+(commonly as /usr/share/common-licenses/GPL-2 on Debian-based systems).
+
+Third-party components bundled in this repository (pjproject and its
+third_party/ libraries, jsoncpp, etc.) keep their own original licenses.
+See THIRD_PARTY_LICENSES.md for details.

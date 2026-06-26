@@ -1,0 +1,22 @@
+# Claude
+.claude/
+CLAUDE.md
+
+# MSBuild output / intermediates
+NanoSIP/Release/
+NanoSIP/Debug/
+NanoSIP/x64/
+NanoSIP/microsip/
+
+# Visual Studio user/cache files
+.vs/
+*.user
+*.suo
+*.sdf
+*.opensdf
+*.aps
+ipch/
+
+# Crash dumps written at runtime
+crash-dump_*.txt
+crash-dump_*.dmp
