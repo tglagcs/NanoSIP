@@ -31,7 +31,7 @@ Source code lives in the [`NanoSIP/`](NanoSIP) subfolder, not in the repository 
 - Fully dark theme.
 - Voice only — video codecs disabled.
 - No Contacts tab or contact add/edit/import/export.
-- No outbound internet links (Visit Website / Help / Shortcuts removed).
+- External-link menu items removed (Visit Website / Help / Shortcuts).
 - Simplified Account dialog — extra fields under a collapsible "Advanced" section; SRTP, TLS,
   Publish Presence and Voicemail removed.
 - Fewer dialer buttons — DND, auto-answer and Conference removed; recording off by default.
@@ -110,7 +110,7 @@ listed in [`THIRD_PARTY_LICENSES.md`](THIRD_PARTY_LICENSES.md).
 - Полностью тёмная тема.
 - Только голос — видео-кодеки отключены.
 - Без вкладки и функций Contacts.
-- Без выхода в интернет (убраны Visit Website / Help / Shortcuts).
+- Убраны пункты меню со ссылками наружу (Visit Website / Help / Shortcuts).
 - Упрощённый диалог Account — лишние поля под секцией «Дополнительно»; убраны SRTP, TLS,
   Publish Presence, Voicemail.
 - Меньше кнопок на звонилке — убраны DND, авто-ответ и Conference; запись по умолчанию выключена.
